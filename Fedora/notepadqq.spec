@@ -42,9 +42,14 @@ It supports syntax highlighting, themes and more
 %autosetup -p1
 
 %build
+# Remove bundled archiver
 rm -rf %{_builddir}/%{name}-%{version}/src/extension_tools/node_modules/archiver
+# Remove bundled shelljs
 rm -rf %{_builddir}/%{name}-%{version}/src/extension_tools/node_modules/shelljs
-rm -rf %{_builddir}/%{name}-%{version}/src/editor/libs/mathjax
+# Remove bundled MathJax
+rm -rf %{_builddir}/%{name}-%{version}/src/editor/libs/MathJax
+sed  -i -e '/cp -r libs\/MathJax/d' %{_builddir}/%{name}-%{version}/src/editor/Makefile
+
 rm -f %{_builddir}/%{name}-%{version}/src/extension_tools/node_modules/.bin/shjs
 ln -s /usr/bin/shjs %{_builddir}/%{name}-%{version}/src/extension_tools/node_modules/.bin/shjs 
 %configure --qmake=qmake-qt5 --lrelease /usr/bin/lrelease-qt5
