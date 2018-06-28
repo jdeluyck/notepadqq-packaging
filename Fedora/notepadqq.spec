@@ -1,11 +1,13 @@
 Name:           notepadqq
 Version:        1.4.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An advanced text editor for developers
 
 License:        GPLv3 and MIT
                 #Notepadqq is licensed under GPLv3
                 #CodeMirror is licensed under MIT
+                #RequireJS is licensed under MIT
+                #jQuery is licensed under MIT
 URL:            https://github.com/notepadqq/notepadqq
 Source0:        %{url}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
@@ -25,9 +27,12 @@ Requires:       qt5-qtsvg
 Requires:       nodejs
 Requires:       nodejs-shelljs
 Requires:       nodejs-archiver
+Requires:       mathjax
 
 Provides:       bundled(nodejs-codemirror) = 5.33.0 
 Provides:       bundled(nodejs-adm-zip) 
+Provides:       bundled(jQuery) = 2.1.1
+Provides:       bundled(requireJS) = 2.3.5
 
 %description
 A qt text editor for developers, with advanced tools, but remaining simple.
@@ -39,6 +44,7 @@ It supports syntax highlighting, themes and more
 %build
 rm -rf %{_builddir}/%{name}-%{version}/src/extension_tools/node_modules/archiver
 rm -rf %{_builddir}/%{name}-%{version}/src/extension_tools/node_modules/shelljs
+rm -rf %{_builddir}/%{name}-%{version}/src/editor/libs/mathjax
 rm -f %{_builddir}/%{name}-%{version}/src/extension_tools/node_modules/.bin/shjs
 ln -s /usr/bin/shjs %{_builddir}/%{name}-%{version}/src/extension_tools/node_modules/.bin/shjs 
 %configure --qmake=qmake-qt5 --lrelease /usr/bin/lrelease-qt5
@@ -84,6 +90,10 @@ mv * %{buildroot}/%{_datadir}/%{name}
 %license COPYING
 
 %changelog
+* Thu Jun 28 2018 Jan De Luyck <jan@kcore.org> - 1.4.8-3
+- Removed bundled MathJax
+- Updated bundled provides for jQuery and requestJS
+
 * Tue Jun 26 2018 Jan De Luyck <jan@kcore.org> - 1.4.8-2
 - Updated to latest comments on Bugzilla
 
